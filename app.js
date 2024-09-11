@@ -4,7 +4,6 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const orderRoutes = require('./api/routes/orders');
 const userRoutes = require('./api/routes/user');
 const packageRoutes = require('./api/routes/packages');
 mongoose.connect("mongodb+srv://bharat:Bharat948@cluster-1.xtbst.mongodb.net/?retryWrites=true&w=majority&appName=Cluster-1"
@@ -26,7 +25,6 @@ app.use((req, res, next) => {
   });
 
 app.use('/packages', packageRoutes);
-app.use('/orders', orderRoutes);
 app.use('/user',userRoutes);
 app.use((req, res, next) => {
     const error = new Error('not Found');

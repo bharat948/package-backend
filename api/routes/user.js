@@ -4,12 +4,13 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require("../models/user");
+const JWT_KEY = process.env.JWT_KEY || 'your_secret_key';
 
 router.post("/signup", (req, res, next) => {
-    const { email, password, username, role, address, contactNumber } = req.body;
+    const { email, password, username, roles, address, contactNumber } = req.body;
 
     // Check if all fields are present
-    if (!email || !password || !username || !role || !address || !contactNumber) {
+    if (!email || !password || !username || !roles || !address || !contactNumber) {
         return res.status(400).json({
             message: "All fields are required (email, password, username, role, address, phoneNumber)"
         });
@@ -79,9 +80,10 @@ router.post("/login", (req, res, next) => {
             const token = jwt.sign(
               {
                 email: user[0].email,
-                userId: user[0]._id
+                userId: user[0]._id,
+                role:user[0].roles[0]
               },
-              process.env.JWT_KEY,
+              JWT_KEY,
               {
                   expiresIn: "1h"
               }

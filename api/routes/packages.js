@@ -140,9 +140,9 @@ router.delete('/', checkAuth, async (req, res, next) => {
         res.status(500).json({ error: err.message || err });
     }
 });
-router.delete('/:packageId', checkAuth, (req, res, next) => {
+router.delete('/:packageId', checkAuth,authorize('customer'),async (req, res, next) => {
     const id = req.params.packageId;
-    Package.deleteOne({ _id: id })
+    await Package.deleteOne({ _id: id })
         .exec()
         .then(result => {
             res.status(200).json({ message: 'Package deleted' });
@@ -152,7 +152,7 @@ router.delete('/:packageId', checkAuth, (req, res, next) => {
         });
 });
 
-router.post('/near-by', checkAuth, async (req, res, next) => {
+router.post('/near-by', checkAuth,authorize('driver'), async (req, res, next) => {
     console.log("hello");
     // console.log(req.body);
     const driverLocation = req.body.locationCoordinates;
@@ -202,7 +202,7 @@ router.post('/:packageId/confirm', checkAuth, authorize('driver'), async (req, r
         res.status(500).json({ message: 'Error confirming package', error });
     }
 });
-router.post('/:packageId/complete', checkAuth, async (req, res,next) => {
+router.post('/:packageId/complete', checkAuth,authorize('driver'), async (req, res,next) => {
     try {
         const { packageId } = req.params;
         const driverId = req.userData.userId;
@@ -229,7 +229,7 @@ router.post('/:packageId/complete', checkAuth, async (req, res,next) => {
     }
   });
 
-  router.get('/my-deliveries/history',checkAuth, async (req, res,next) => {
+  router.get('/my-deliveries/history',checkAuth,authorize('driver'), async (req, res,next) => {
     try {
         const driverId = req.userData.userId;
  

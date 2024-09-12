@@ -1,4 +1,12 @@
 const Package = require('../models/package');
+const {getCoordinates,calculateDistance} = require('../utils/resources');
+const User = require('../models/user');
+const DriverRating = require('../models/driverRating');
+const mongoose = require('mongoose');
+const { getCoordinates, calculateDistance } = require('../utils/resources');
+const JWT_KEY = process.env.JWT_KEY || 'your_secret_key';
+
+
 
 const getAllPackages = (req, res, next) => {
     Package.find()

@@ -9,3 +9,4 @@ const driverRatingSchema = new mongoose.Schema({
 });
  
 module.exports = mongoose.model('DriverRating', driverRatingSchema);
+
